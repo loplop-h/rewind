@@ -1,0 +1,72 @@
+name: Bug report
+description: Something doesn't behave the way the docs / your expectation say it should.
+title: "bug: <one-line summary>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a report. Filling each field below saves a back-and-forth round trip.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: One paragraph. What did you do, what did you expect, what actually happened?
+      placeholder: I ran `rewind tui` after a 12-event session. I expected the timeline to render. Instead I got a UnicodeEncodeError.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: The shortest sequence of commands that reproduces the issue. Include input data if relevant.
+      render: shell
+      placeholder: |
+        rewind cc setup --scope project
+        # ... one prompt to claude code that does an Edit ...
+        rewind tui
+    validations:
+      required: true
+
+  - type: input
+    id: rewindx_version
+    attributes:
+      label: rewindx version
+      description: Output of `rewind --version`.
+      placeholder: rewind, version 0.1.2
+    validations:
+      required: true
+
+  - type: input
+    id: python_version
+    attributes:
+      label: Python version
+      placeholder: 3.12.10
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other (note in additional context)
+    validations:
+      required: true
+
+  - type: input
+    id: claude_code_version
+    attributes:
+      label: Claude Code version (if relevant)
+      placeholder: e.g. 0.4.x
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Logs, screenshots of the TUI, contents of `~/.rewind/sessions/<id>/events.db`, anything else.

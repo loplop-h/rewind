@@ -161,20 +161,45 @@ Skip unless we have a research-grade benchmark to share. Otherwise we
 look like noise. Plan to revisit when we have V0.2 with the export GIF
 working.
 
+### Lobsters (~12:30 BCN, before Show HN)
+
+Lobsters has an invite-only audience that's heavy on systems / dev tools
+people. A well-received post tends to cross-pollinate to HN within hours.
+
+Submission URL: `https://github.com/loplop-h/rewind`
+Title (≤ 100 chars): `rewind: time-travel debugger for Claude Code sessions`
+Tags: `programming`, `practices` (or `python` if available — pick the two
+most fitting at submission time)
+Story text (optional; only if asked):
+```
+Open-source CLI that hooks into Claude Code, captures every prompt /
+tool call / file edit / cost into a local SQLite event store with
+content-addressed blob storage, and lets you scrub the session timeline
+and `goto N` to roll the file system back to any prior point. Local
+only, no telemetry, MIT.
+
+The interesting bit is the rollback semantics: snapshots are
+content-addressed (sha256 → blob, like git's object store) so dedup is
+free, and each rollback creates a checkpoint so `rewind undo` reverses
+it. Python 3.11+, runs on linux/macos/windows.
+```
+
 ---
 
 ## 4. Twitter / X thread (~14:00 BCN, simultaneous with LinkedIn)
 
-Tweet 1 — hook with the GIF:
+Each tweet ends with `(N/8)` so people know how long the thread is.
+
+Tweet 1 — hook with the MP4 (preferred over GIF on Twitter for reach):
 ```
 I built a time-travel debugger for Claude Code sessions.
 
 Open source. Local only. Exports as a privacy-masked transcript.
 
 Watch goto + undo land a 4-hour session in 3 seconds: ↓
-[attach docs/images/rollback.gif]
+[attach docs/images/demo.mp4]
 
-🧵
+(1/8) 🧵
 ```
 
 Tweet 2:
@@ -185,7 +210,9 @@ Claude Code does 30-50 tool calls per session. The session JSONL is
 unreadable. git diff shows files, not reasoning. When the agent breaks
 something, you have nothing to fall back on.
 
-rewind: captures everything → timeline → rollback.
+rewind: capture → timeline → rollback.
+
+(2/8)
 ```
 
 Tweet 3 — the asset:
@@ -195,21 +222,29 @@ store + content-addressed blob store. Per-session, single folder, no
 daemon, no cloud.
 
 [attach docs/images/hero.png]
+
+(3/8)
 ```
 
 Tweet 4 — privacy:
 ```
-The interesting bit: zero network calls. No telemetry. The exporter
-masks file contents and env-shaped secrets unless you pass --no-mask.
+Zero network calls. No telemetry. The exporter masks file contents and
+env-shaped secrets unless you pass --no-mask.
 
 Trust is the asset for a tool that observes everything.
+
+(4/8)
 ```
 
 Tweet 5 — the "Strava" angle:
 ```
-The export-to-GIF backend lands in 0.2. Imagine sharing a 60-second
+A full GIF/MP4 export backend lands in 0.2. Imagine sharing a 60-second
 replay of a 4-hour Claude Code session. PR descriptions become videos.
-Bug reports stop being one-line. That's the long-term bet.
+Bug reports stop being one-line.
+
+That's the long-term bet.
+
+(5/8)
 ```
 
 Tweet 6 — install + repo:
@@ -218,18 +253,33 @@ pip install rewindx
 rewind cc setup
 
 Python 3.11+. Linux / macOS / Windows.
-131 tests, 87% branch coverage, MIT.
+136 tests, 87% branch coverage, MIT.
 
 Repo: github.com/loplop-h/rewind
+
+(6/8)
 ```
 
-Tweet 7 — call to action:
+Tweet 7 — sister projects:
 ```
-Going live in 30 minutes. If you use Claude Code (or Cursor or Aider)
-and you've ever asked "what did the agent just do" — try it and tell me
-what's missing.
+This is one corner of an open-source toolchain for Claude Code:
+
+- spent     → cost tracking
+- debtx     → code quality
+- mcpguard  → MCP security
+- rewind    → observability + recovery
+
+(7/8)
+```
+
+Tweet 8 — call to action:
+```
+If you use Claude Code (or Cursor or Aider) and you've ever asked "what
+did the agent just do" — try it and tell me what's missing.
 
 Replies open.
+
+(8/8)
 ```
 
 ---
@@ -263,22 +313,26 @@ Don't pitch. Don't oversell. Don't ask for upvotes explicitly — the soft
 
 ## 6. Order of operations (T = launch time = 14:00 BCN)
 
-| T-      | Action                                                                  |
-|---------|-------------------------------------------------------------------------|
-| -24h    | DM beta list (~10 people)                                               |
-| -2h     | Last smoke-test in fresh venv (`scripts/smoke_test_pypi.py`)            |
-| -90m    | Verify CI green on main                                                 |
-| -60m    | Verify GitHub Release page renders                                      |
-| -45m    | Final read-through of every post                                        |
-| -10m    | Show HN drafted in browser, ready to submit                             |
-| **T+0** | Submit Show HN                                                          |
-| T+10m   | Reply to first HN comment substantively                                 |
-| T+15m   | Reddit posts (r/ClaudeAI, r/LocalLLaMA, r/SideProject)                  |
-| T+20m   | Twitter thread + LinkedIn post                                          |
-| T+22m   | Drop GitHub link as first comment on LinkedIn                           |
-| T+30m   | Reply to first LinkedIn / Twitter comments                              |
-| T+1h    | Check HN ranking; if not on `/new` first page, DM 2-3 friends to look   |
-| T+3h    | Status post on LinkedIn: "1k stars in 3 hours, here's what people ask"  |
+| T-       | Action                                                                  |
+|----------|-------------------------------------------------------------------------|
+| -24h     | DM beta list (~10 people)                                               |
+| -2h      | Last smoke-test in fresh venv (`scripts/smoke_test_pypi.py`)            |
+| -90m     | Verify CI green on main                                                 |
+| -60m     | Verify GitHub Release page renders + topics show on repo card           |
+| -90m     | Submit Lobsters (slow climb, want lead time)                            |
+| -45m     | Final read-through of every post                                        |
+| -10m     | Show HN drafted in browser, ready to submit                             |
+| **T+0**  | Submit Show HN                                                          |
+| T+10m    | Reply to first HN comment substantively                                 |
+| T+15m    | Reddit posts (r/ClaudeAI, r/LocalLLaMA, r/SideProject)                  |
+| T+20m    | Twitter thread + LinkedIn post                                          |
+| T+22m    | Drop GitHub link as first comment on LinkedIn                           |
+| T+30m    | Reply to first LinkedIn / Twitter comments                              |
+| T+1h     | Check HN ranking; if not on `/new` first page, DM 2-3 friends to look   |
+| T+3h     | Status post on LinkedIn: "Nh stars in 3 hours, here's what people ask"  |
+| T+12h    | Awesome-list PRs (awesome-claude-code, awesome-mcp, awesome-cli)        |
+| Day 2    | Daily LinkedIn micro-post + issue triage                                |
+| Day 3    | Product Hunt submission (only if Day 1 numbers warrant it)              |
 
 ---
 

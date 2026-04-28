@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: rewind
+message: "If you use rewind in your work, please cite it as below."
+type: software
+authors:
+  - given-names: Max
+    name-particle: Ernst
+    family-names: Huisman
+repository-code: 'https://github.com/loplop-h/rewind'
+url: 'https://pypi.org/project/rewindx/'
+version: 0.1.2
+date-released: '2026-04-28'
+license: MIT
+keywords:
+  - claude-code
+  - developer-tools
+  - debugger
+  - time-travel
+  - replay
+  - ai-tools
+  - observability
+  - python
+abstract: >
+  rewind is a time-travel debugger and shareable replay for Claude Code
+  sessions. It captures every prompt, tool call, file edit, and cost into
+  a per-session SQLite store with content-addressed file snapshots,
+  presents the session as a scrubbable timeline, restores the file system
+  to any prior point with `rewind goto`, and exports a privacy-masked
+  Markdown transcript suitable for sharing.

@@ -1,0 +1,50 @@
+name: Feature request
+description: Something rewind should do that it doesn't yet.
+title: "feat: <one-line summary>"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening: this is a small project. The bar for adding features is "the absence of this feature breaks a real workflow you have right now," not "this would be cool." Be concrete.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the workflow or scenario that hits a wall today, **not** the proposed solution. One paragraph.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: How would the feature work from the user's perspective? CLI flag? New command? New config field? Be specific.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What workarounds exist? What would you do today without this feature?
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope guess
+      description: Your best guess at how big this is.
+      options:
+        - Small (one CLI flag, no schema change)
+        - Medium (new command or new module)
+        - Large (schema migration / new architecture)
+        - I have no idea
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      description: Links to related issues, comparable features in other tools, screenshots of mockups, etc.

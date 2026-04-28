@@ -2,6 +2,12 @@
 
 > Time-travel debugger and shareable replay for Claude Code sessions.
 
+[![CI](https://github.com/loplop-h/rewind/actions/workflows/ci.yml/badge.svg)](https://github.com/loplop-h/rewind/actions/workflows/ci.yml)
+[![PyPI version](https://img.shields.io/pypi/v/rewindx.svg?label=pypi%20%C2%B7%20rewindx)](https://pypi.org/project/rewindx/)
+[![Python versions](https://img.shields.io/pypi/pyversions/rewindx.svg)](https://pypi.org/project/rewindx/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Coverage: 87%](https://img.shields.io/badge/coverage-87%25-brightgreen.svg)](https://github.com/loplop-h/rewind/actions/workflows/ci.yml)
+
 ![rewind tui — timeline of a Claude Code session](docs/images/hero.png)
 
 > **[Watch the 30-second live demo (MP4 · 691 KB)](docs/images/demo.mp4)**
