@@ -330,13 +330,35 @@ Don't pitch. Don't oversell. Don't ask for upvotes explicitly — the soft
 | T+30m    | Reply to first LinkedIn / Twitter comments                              |
 | T+1h     | Check HN ranking; if not on `/new` first page, DM 2-3 friends to look   |
 | T+3h     | Status post on LinkedIn: "Nh stars in 3 hours, here's what people ask"  |
-| T+12h    | Awesome-list PRs (awesome-claude-code, awesome-mcp, awesome-cli)        |
+| T+12h    | Awesome-list PRs (see awesome-list table below — pick currently open)   |
 | Day 2    | Daily LinkedIn micro-post + issue triage                                |
 | Day 3    | Product Hunt submission (only if Day 1 numbers warrant it)              |
 
 ---
 
-## 7. Anti-checklist (do not do)
+## 7. Awesome-list submissions (post-launch, day 2-3)
+
+Verified at the time of writing — re-check before submitting because TOCs shift.
+
+| List                                              | Stars  | Status        | Action                                                |
+|---------------------------------------------------|-------:|---------------|-------------------------------------------------------|
+| `hesreallyhim/awesome-claude-code`                | 41.6K  | TOC in transition (skip until update lands) | Watch the repo and submit once the new TOC ships. Highest signal of any list. |
+| `rohitg00/awesome-claude-code-toolkit`            | 1.5K   | Active        | Open PR adding rewind to the *developer tooling* / *observability* section. Pitch line: "Time-travel debugger and shareable replay for Claude Code sessions." |
+| `ccplugins/awesome-claude-code-plugins`           | 735    | Active        | Open PR adding rewind under *hooks* (since rewind installs hooks via `rewind cc setup`). |
+| `jqueryscript/awesome-claude-code`                | 317    | Active        | Open PR under *Tools / IDE / Frameworks*. |
+| `punkpeye/awesome-mcp-servers`                    | 85.8K  | **Skip**      | rewind is not an MCP server. Wrong list. |
+
+PR template (paraphrase to match the host list's existing entries):
+
+```markdown
+- [rewind](https://github.com/loplop-h/rewind) — Time-travel debugger
+  for Claude Code sessions. Captures every prompt, tool call, and file
+  edit into a local SQLite store; rolls the file system back to any
+  prior point with `rewind goto N`; exports a privacy-masked Markdown
+  transcript. Local-only, MIT.
+```
+
+## 8. Anti-checklist (do not do)
 
 - Don't include external links in the LinkedIn post body (proven 40-50% reach penalty).
 - Don't post on Friday or weekend.
