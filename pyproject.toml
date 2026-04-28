@@ -1,0 +1,169 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rewindx"
+version = "0.1.0"
+description = "Time-travel debugger and shareable replay for Claude Code sessions."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Max Ernst Huisman" }]
+keywords = [
+    "claude-code",
+    "ai",
+    "developer-tools",
+    "observability",
+    "debugger",
+    "replay",
+    "time-travel",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "click>=8.1.7",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+export = [
+    "pillow>=10.0",
+    "imageio>=2.34",
+    "imageio-ffmpeg>=0.5",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-mock>=3.12",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "types-pillow",
+    "rewindx[export]",
+]
+
+[project.scripts]
+rewind = "rewind.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/loplop-h/rewind"
+Repository = "https://github.com/loplop-h/rewind"
+Issues = "https://github.com/loplop-h/rewind/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rewind = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=rewind",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+    "--cov-fail-under=85",
+]
+markers = [
+    "integration: end-to-end tests touching the real filesystem",
+    "slow: tests that take more than 1 second",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["rewind"]
+omit = [
+    "*/tui/*",
+    "*/export/*",
+    "*/__main__.py",
+    "*/version.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
+show_missing = true
+skip_covered = false
+precision = 1
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "B",
+    "C4",
+    "UP",
+    "SIM",
+    "RUF",
+    "PL",
+    "TID",
+    "PTH",
+    "RET",
+    "ARG",
+    "N",
+    "S",
+]
+ignore = [
+    "PLR0913",
+    "PLR2004",
+    "S101",
+    "S603",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "ARG", "PLR2004"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_return_any = true
+warn_unreachable = true
+exclude = [
+    "build/",
+    "dist/",
+]
+
+[[tool.mypy.overrides]]
+module = ["imageio.*", "imageio_ffmpeg.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
