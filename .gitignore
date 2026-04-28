@@ -37,10 +37,14 @@ htmlcov/
 # Project
 ~/.rewind/
 .rewind/
-*.gif
-*.mp4
 sessions/
 captures/
+
+# rewind export artifacts (but keep marketing assets in docs/images/)
+/*.gif
+/*.mp4
+/captures/*.gif
+/captures/*.mp4
 
 # Secrets / env
 .env
