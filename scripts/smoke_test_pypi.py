@@ -65,12 +65,55 @@ def main() -> int:
             "cwd": str(proj),
             "permission_mode": "default",
         }
-        cap(rewind, "session-start", {**common, "hook_event_name": "SessionStart", "source": "startup", "model": "opus"}, env)
-        cap(rewind, "user-prompt",   {**common, "hook_event_name": "UserPromptSubmit", "prompt": "rename hello to greet"}, env)
-        cap(rewind, "pre-tool",      {**common, "hook_event_name": "PreToolUse", "tool_name": "Edit", "tool_input": {"file_path": str(target)}}, env)
+        cap(
+            rewind,
+            "session-start",
+            {**common, "hook_event_name": "SessionStart", "source": "startup", "model": "opus"},
+            env,
+        )
+        cap(
+            rewind,
+            "user-prompt",
+            {**common, "hook_event_name": "UserPromptSubmit", "prompt": "rename hello to greet"},
+            env,
+        )
+        cap(
+            rewind,
+            "pre-tool",
+            {
+                **common,
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Edit",
+                "tool_input": {"file_path": str(target)},
+            },
+            env,
+        )
         target.write_text("def greet():\n    return 1\n", encoding="utf-8")
-        cap(rewind, "post-tool",     {**common, "hook_event_name": "PostToolUse", "tool_name": "Edit", "tool_input": {"file_path": str(target)}, "tool_response": {"success": True}, "duration_ms": 5}, env)
-        cap(rewind, "session-end",   {**common, "hook_event_name": "Stop", "exit_reason": "normal", "total_cost_usd": 0.05, "total_events": 4}, env)
+        cap(
+            rewind,
+            "post-tool",
+            {
+                **common,
+                "hook_event_name": "PostToolUse",
+                "tool_name": "Edit",
+                "tool_input": {"file_path": str(target)},
+                "tool_response": {"success": True},
+                "duration_ms": 5,
+            },
+            env,
+        )
+        cap(
+            rewind,
+            "session-end",
+            {
+                **common,
+                "hook_event_name": "Stop",
+                "exit_reason": "normal",
+                "total_cost_usd": 0.05,
+                "total_events": 4,
+            },
+            env,
+        )
 
         ls = run(rewind, "sessions", "list", env=env)
         assert sid in ls.stdout, f"session not listed: {ls.stdout!r}"

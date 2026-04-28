@@ -4,6 +4,21 @@ All notable changes to **rewind** are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] — 2026-04-28
+
+### Fixed
+- **Critical (Windows):** `rewind tui` crashed with ``UnicodeEncodeError``
+  on the default Windows cp1252 console because the Rich box-drawing
+  characters in the timeline could not be encoded. The CLI now forces
+  ``sys.stdout`` / ``sys.stderr`` to UTF-8 with ``errors="replace"`` on
+  startup, so any output renders cleanly regardless of the system locale.
+
+### Skipped
+- 0.1.1 was released only as a marketing-asset bump (hero PNG, rollback
+  GIF, launch copy) with no functional changes; the wheel was not
+  republished. 0.1.2 is the first release that updates the package
+  contents after 0.1.0.
+
 ## [0.1.0] — 2026-04-28
 
 Initial alpha. Core capture + rollback + export pipeline. Non-interactive TUI.

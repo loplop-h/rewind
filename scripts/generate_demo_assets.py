@@ -16,7 +16,6 @@ extra).
 
 from __future__ import annotations
 
-import io
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -36,10 +35,11 @@ CONSOLA_BOLD = r"C:\Windows\Fonts\consolab.ttf"
 
 # Palette ---------------------------------------------------------------
 
+
 class Color:
-    BG = "#0d1117"          # GitHub dark
-    FG = "#c9d1d9"          # default text
-    DIM = "#8b949e"         # secondary text / borders
+    BG = "#0d1117"  # GitHub dark
+    FG = "#c9d1d9"  # default text
+    DIM = "#8b949e"  # secondary text / borders
     BORDER = "#30363d"
     RED = "#f85149"
     GREEN = "#3fb950"
@@ -66,6 +66,7 @@ def load_fonts() -> tuple[ImageFont.FreeTypeFont, ImageFont.FreeTypeFont]:
 
 # Span model ------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class Span:
     text: str
@@ -77,7 +78,7 @@ class Span:
 class Line:
     spans: list[Span] = field(default_factory=list)
 
-    def add(self, text: str, color: str = Color.FG, bold: bool = False) -> "Line":
+    def add(self, text: str, color: str = Color.FG, bold: bool = False) -> Line:
         self.spans.append(Span(text=text, color=color, bold=bold))
         return self
 
@@ -107,43 +108,43 @@ def render_lines(
 
 # Hero PNG content ------------------------------------------------------
 
+
 def hero_lines() -> list[Line]:
     """The 'aha' moment: a populated timeline with one wasted tool call."""
 
     lines: list[Line] = []
     # Title bar.
-    lines.append(
-        Line()
-        .add("$ ", Color.GREEN, bold=True)
-        .add("rewind tui", Color.FG, bold=True)
-    )
+    lines.append(Line().add("$ ", Color.GREEN, bold=True).add("rewind tui", Color.FG, bold=True))
     lines.append(Line())
     lines.append(
-        Line().add("                       rewind  ·  session 7f3a-2b12c4af", Color.MAGENTA, bold=True)
+        Line().add(
+            "                       rewind  ·  session 7f3a-2b12c4af", Color.MAGENTA, bold=True
+        )
     )
     lines.append(Line())
     # Header.
     lines.append(
-        Line()
-        .add(" #   time      kind            tool         status        summary", Color.CYAN, bold=True)
+        Line().add(
+            " #   time      kind            tool         status        summary",
+            Color.CYAN,
+            bold=True,
+        )
     )
-    lines.append(
-        Line().add(" " + "─" * 96, Color.BORDER)
-    )
+    lines.append(Line().add(" " + "─" * 96, Color.BORDER))
     # Rows.
     rows = [
-        (" 1", "14:32:01", "session_start", "",          "",            "model=claude-opus-4-7"),
-        (" 2", "14:32:08", "user_prompt",   "",          "",            'add JWT auth to /login'),
-        (" 3", "14:32:14", "pre_tool",      "Edit",      "",            "file_path=auth.py"),
-        (" 4", "14:32:14", "post_tool",     "Edit",      "productive",  "success=true"),
-        (" 5", "14:32:21", "pre_tool",      "Bash",      "",            "command=pytest -q"),
-        (" 6", "14:32:23", "post_tool",     "Bash",      "wasted",      "exit_code=1   ← agent broke things"),
-        (" 7", "14:32:30", "pre_tool",      "Read",      "",            "file_path=auth.py"),
-        (" 8", "14:32:30", "post_tool",     "Read",      "neutral",     "bytes=482"),
-        (" 9", "14:32:38", "pre_tool",      "Edit",      "",            "file_path=auth.py"),
-        ("10", "14:32:38", "post_tool",     "Edit",      "productive",  "success=true"),
-        ("11", "14:32:44", "pre_tool",      "Bash",      "",            "command=pytest -q"),
-        ("12", "14:32:46", "post_tool",     "Bash",      "productive",  "exit_code=0   passed in 1.42s"),
+        (" 1", "14:32:01", "session_start", "", "", "model=claude-opus-4-7"),
+        (" 2", "14:32:08", "user_prompt", "", "", "add JWT auth to /login"),
+        (" 3", "14:32:14", "pre_tool", "Edit", "", "file_path=auth.py"),
+        (" 4", "14:32:14", "post_tool", "Edit", "productive", "success=true"),
+        (" 5", "14:32:21", "pre_tool", "Bash", "", "command=pytest -q"),
+        (" 6", "14:32:23", "post_tool", "Bash", "wasted", "exit_code=1   ← agent broke things"),
+        (" 7", "14:32:30", "pre_tool", "Read", "", "file_path=auth.py"),
+        (" 8", "14:32:30", "post_tool", "Read", "neutral", "bytes=482"),
+        (" 9", "14:32:38", "pre_tool", "Edit", "", "file_path=auth.py"),
+        ("10", "14:32:38", "post_tool", "Edit", "productive", "success=true"),
+        ("11", "14:32:44", "pre_tool", "Bash", "", "command=pytest -q"),
+        ("12", "14:32:46", "post_tool", "Bash", "productive", "exit_code=0   passed in 1.42s"),
     ]
     kind_color = {
         "session_start": Color.GREEN,
@@ -204,62 +205,67 @@ def build_hero_png() -> Path:
 
 # Rollback GIF frames ---------------------------------------------------
 
+
 def rollback_frames() -> list[tuple[float, list[Line]]]:
     """Return (duration_seconds, lines) tuples building up the rollback story."""
 
     frames: list[tuple[float, list[Line]]] = []
 
     base: list[Line] = []
-    base.append(
-        Line()
-        .add("$ ", Color.GREEN, bold=True)
-        .add("rewind tui", Color.FG, bold=True)
-    )
+    base.append(Line().add("$ ", Color.GREEN, bold=True).add("rewind tui", Color.FG, bold=True))
     base.append(Line())
     base.append(
-        Line().add(" 5  14:32:21  pre_tool       Bash         ", Color.YELLOW)
+        Line()
+        .add(" 5  14:32:21  pre_tool       Bash         ", Color.YELLOW)
         .add("            command=pytest -q", Color.FG)
     )
     base.append(
-        Line().add(" 6  14:32:23  post_tool      Bash         ", Color.CYAN)
+        Line()
+        .add(" 6  14:32:23  post_tool      Bash         ", Color.CYAN)
         .add("wasted        ", Color.RED, bold=True)
         .add("exit_code=1  ← agent broke things", Color.RED, bold=True)
     )
     base.append(
-        Line().add(" 7  14:32:30  pre_tool       Read         ", Color.YELLOW)
+        Line()
+        .add(" 7  14:32:30  pre_tool       Read         ", Color.YELLOW)
         .add("            file_path=auth.py", Color.FG)
     )
     base.append(Line())
     frames.append((1.6, base))
 
     # Goto command typed.
-    after_goto_typed: list[Line] = list(base) + [
-        Line()
-        .add("$ ", Color.GREEN, bold=True)
-        .add("rewind goto 5", Color.FG, bold=True)
+    after_goto_typed: list[Line] = [
+        *list(base),
+        Line().add("$ ", Color.GREEN, bold=True).add("rewind goto 5", Color.FG, bold=True),
     ]
     frames.append((1.0, after_goto_typed))
 
     # Goto output.
-    after_goto: list[Line] = list(after_goto_typed) + [
+    after_goto: list[Line] = [
+        *list(after_goto_typed),
         Line().add("plan: 1 restore, 0 delete, 0 unchanged (target seq=5)", Color.FG),
-        Line().add("  ", Color.FG).add("restore  ", Color.GREEN, bold=True).add("/repo/auth.py", Color.FG),
+        Line()
+        .add("  ", Color.FG)
+        .add("restore  ", Color.GREEN, bold=True)
+        .add("/repo/auth.py", Color.FG),
         Line().add("rolled back. checkpoint id: 1777384392012-7f3a", Color.GREEN, bold=True),
     ]
     frames.append((2.0, after_goto))
 
     # Undo command typed.
-    after_undo_typed: list[Line] = list(after_goto) + [
+    after_undo_typed: list[Line] = [
+        *list(after_goto),
         Line(),
-        Line()
-        .add("$ ", Color.GREEN, bold=True)
-        .add("rewind undo", Color.FG, bold=True),
+        Line().add("$ ", Color.GREEN, bold=True).add("rewind undo", Color.FG, bold=True),
     ]
     frames.append((1.0, after_undo_typed))
 
     # Undo output.
-    after_undo: list[Line] = list(after_undo_typed) + [
-        Line().add("undone checkpoint 1777384392012-7f3a: 1 restored, 0 deleted", Color.GREEN, bold=True),
+    after_undo: list[Line] = [
+        *list(after_undo_typed),
+        Line().add(
+            "undone checkpoint 1777384392012-7f3a: 1 restored, 0 deleted", Color.GREEN, bold=True
+        ),
     ]
     frames.append((2.0, after_undo))
 
@@ -294,7 +300,7 @@ def build_rollback_gif() -> Path:
     # imageio writes per-frame durations from the durations kwarg.
     imageio.mimsave(
         out,
-        [im for im in images],
+        list(images),
         duration=durations,
         loop=0,
         subrectangles=True,

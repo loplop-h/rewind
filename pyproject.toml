@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rewindx"
-version = "0.1.0"
+version = "0.1.2"
 description = "Time-travel debugger and shareable replay for Claude Code sessions."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -138,6 +138,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S", "ARG", "PLR2004"]
+"scripts/**" = ["S", "PLW1510", "ARG", "PLR2004", "T201", "E501"]
 
 [tool.ruff.format]
 quote-style = "double"

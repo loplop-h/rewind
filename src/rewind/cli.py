@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import sys
 from datetime import UTC, datetime
@@ -34,12 +35,28 @@ from rewind.tui.app import run_tui
 from rewind.version import __version__
 
 
+def _ensure_utf8_stdio() -> None:
+    """Force UTF-8 + replace on stdout/stderr so Rich box-drawing characters
+    don't crash on the default Windows cp1252 console.
+
+    Safe on POSIX where stdout is already UTF-8: ``reconfigure`` is a no-op
+    when the encoding hasn't changed, and we never touch redirected pipes
+    (which already have a buffer attribute we leave alone)."""
+
+    for stream in (sys.stdout, sys.stderr):
+        reconf = getattr(stream, "reconfigure", None)
+        if callable(reconf):
+            with contextlib.suppress(OSError, ValueError):
+                reconf(encoding="utf-8", errors="replace")
+
+
 @click.group(invoke_without_command=False, context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(version=__version__, prog_name="rewind")
 @click.pass_context
 def main(ctx: click.Context) -> None:
     """rewind — time-travel debugger for Claude Code sessions."""
 
+    _ensure_utf8_stdio()
     ctx.ensure_object(dict)
     ctx.obj["config"] = Config.load()
 
