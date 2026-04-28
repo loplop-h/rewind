@@ -369,9 +369,20 @@ def _resolve_session(manager: SessionManager, session_id: str | None) -> Any:
 
 
 def _self_command() -> str:
-    """Return the command we want hooks to invoke (resolved python -m for portability)."""
+    """Return the command we want hooks to invoke.
 
-    return f"{sys.executable} -m rewind capture"
+    Claude Code runs hook commands through ``/usr/bin/bash`` even on Windows
+    (Git Bash / MSYS). Bash treats ``\\`` as an escape character, so a
+    Windows path like ``C:\\Users\\...\\python.exe`` collapses to
+    ``C:Users...python.exe`` (every backslash disappears).
+
+    We sidestep that by emitting the path in POSIX style (forward slashes)
+    and wrapping it in single quotes, which suppress all shell expansion.
+    Bash on Windows accepts ``C:/Users/...`` without further translation.
+    """
+
+    exe = Path(sys.executable).resolve().as_posix()
+    return f"'{exe}' -m rewind capture"
 
 
 def _iso(ts_ms: int) -> str:
