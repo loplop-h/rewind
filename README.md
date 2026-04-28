@@ -4,6 +4,8 @@
 
 ![rewind tui — timeline of a Claude Code session](docs/images/hero.png)
 
+> **[Watch the 30-second live demo (MP4 · 691 KB)](docs/images/demo.mp4)**
+
 ```bash
 pip install rewindx       # PyPI package; binary is `rewind`
 rewind cc setup           # wires up Claude Code hooks (idempotent)
@@ -29,7 +31,7 @@ nothing to fall back on. `rewind` closes that loop:
   point. Each rollback creates a checkpoint so `rewind undo` is one
   command:
 
-  ![rewind goto + undo demo](docs/images/rollback.gif)
+  ![rewind goto + undo, recorded live](docs/images/demo-rollback.gif)
 
 - **Shareable replay** — `rewind export` renders the session as a
   privacy-masked Markdown or text transcript. (GIF and MP4 backends ship

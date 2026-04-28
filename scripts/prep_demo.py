@@ -119,13 +119,17 @@ def seed(rewind_home: Path, project: Path) -> None:
     pre_id = _ev(
         3, EventKind.PRE_TOOL, tool="Edit", input_json=f'{{"file_path":"{target.as_posix()}"}}'
     )
+    # Before the agent's Edit, the file already existed in its OK state. The
+    # Edit then writes the BROKEN content. This pair is what makes
+    # `rewind goto 5` restore the OK content rather than try to delete the
+    # file (which would be the case if before_hash were None).
     store.insert_file_snapshot(
         FileSnapshot(
             event_id=pre_id,
             path=str(target),
-            before_hash=None,
+            before_hash=blob_ok,
             after_hash=blob_broken,
-            bytes_before=None,
+            bytes_before=len(AUTH_OK.encode("utf-8")),
             bytes_after=len(AUTH_BROKEN.encode("utf-8")),
         )
     )

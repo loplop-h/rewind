@@ -121,28 +121,24 @@ def main() -> int:
 
     banner("ACT 4 — share the session.")
     sys.stdout.write(PROMPT_USER)
-    typewrite("rewind export --session demo-7f3a-2b12c4af --format markdown | head -30")
-    if os.name == "nt":
-        ps = subprocess.run(
-            [rewind_bin, "export", "--session", "demo-7f3a-2b12c4af", "--format", "markdown"],
-            capture_output=True,
-            text=True,
-            env=env,
-        )
-        for line in ps.stdout.splitlines()[:30]:
-            sys.stdout.write(line + "\n")
-    else:
-        run_cmd(
-            [
-                "bash",
-                "-c",
-                f"{rewind_bin} export --session demo-7f3a-2b12c4af --format markdown | head -30",
-            ],
-            env,
-        )
+    typewrite("rewind export demo-7f3a-2b12c4af --format markdown")
+    ps = subprocess.run(
+        [rewind_bin, "export", "demo-7f3a-2b12c4af", "--format", "markdown"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        env=env,
+    )
+    # Cap rendered preview at ~26 lines so the markdown fits comfortably
+    # in the recording without scrolling the title card off-screen.
+    for line in ps.stdout.splitlines()[:26]:
+        sys.stdout.write(line + "\n")
+    sys.stdout.write("...\n")
+    sys.stdout.flush()
     beat(PAUSE_BETWEEN_ACTS)
 
-    banner("rewind v0.1.0  ·  pip install rewindx  ·  github.com/loplop-h/rewind")
+    banner("rewind v0.1.2  ·  pip install rewindx  ·  github.com/loplop-h/rewind")
     beat(2.5)
     return 0
 
