@@ -14,6 +14,17 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 
+## [0.1.4] — 2026-04-29
+
+### Fixed
+- `rewind sessions list` reported ``events: 0`` for every real Claude
+  Code session because the column read ``Session.total_events``, which
+  is only populated when the ``Stop`` hook payload includes it — and
+  Claude Code does not. The list now uses
+  ``SessionManager.list_summaries()``, which counts rows in the
+  ``events`` table directly. The number now matches what `rewind tui`
+  shows.
+
 ## [0.1.3] — 2026-04-28
 
 ### Fixed

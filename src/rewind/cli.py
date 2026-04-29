@@ -159,15 +159,16 @@ def sessions_list(ctx: click.Context) -> None:
 
     config = _config(ctx)
     manager = SessionManager(config)
-    sessions = manager.list_sessions()
-    if not sessions:
+    summaries = list(manager.list_summaries())
+    if not summaries:
         click.echo("no sessions captured yet")
         return
     click.echo(f"{'session':<40}  {'started':<20}  events  cost")
-    for s in sessions:
+    for summary in summaries:
+        s = summary.session
         click.echo(
             f"{s.id[:36]:<40}  {_iso(s.started_at):<20}  "
-            f"{s.total_events:>6}  ${s.total_cost_usd:.2f}"
+            f"{summary.event_count:>6}  ${s.total_cost_usd:.2f}"
         )
 
 
